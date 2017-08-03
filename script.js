@@ -1,17 +1,20 @@
 $(function() {
     function logout() {
-        $.ajax({
-            type: 'GET',
-            url: '/logout',
-            headers: { "Authorization": "Basic xxx" }
-        })
-        .done(function() {
-            alert( "logout failed" );
-        })
-        .fail(function(){
-            alert('log out successful')
-            window.location.reload(true);
-        });;
+
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', '/logout', false, 'fail', 'fail');
+
+        xmlhttp.onload = function () {
+            if (xmlhttp.status == 401) {
+                alert("logout successful");
+            } else if (xmlhttp.status == 500) {
+                alert('server error')
+            } else {
+                alert("logout ok");
+            }
+        };
+
+        xmlhttp.send();
     }
 
     function makeRequest(username, password) {
@@ -21,6 +24,8 @@ $(function() {
         xmlhttp.onload = function () {
             if (xmlhttp.status == 401) {
                 alert("login failed");
+            } else if (xmlhttp.status == 500) {
+                alert('server error')
             } else {
                 alert("login ok");
             }

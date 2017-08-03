@@ -1,23 +1,41 @@
 const express = require('express')
-const basicAuth = require('express-basic-auth')
+const basicAuth = require('basic-auth')
 const path = require('path')
 const app = express()
-const port = process.env.PORT || 3000;
+
+const authorize = (request, response, next) => {
+    const unauthorized = response => {
+        response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        return response.send(401);
+    };
+ 
+    const user = basicAuth(request);
+ 
+    if (!user || !user.name || !user.pass) {
+        return unauthorized(response);
+    };
+ 
+    if (user.name === 'test' && user.pass === 'test') {
+        return next();
+    } else {
+        return unauthorized(response);
+    };
+};
 
 app.use(express.static(__dirname))
 
-app.get('/', (req, res) => {
+app.get('/logout', authorize, (req, res) => {
+    throw Error()
+})
+
+app.get('/test', authorize, (req, res) => {
+    res.sendStatus(200)
+})
+
+app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
-app.get('/logout', basicAuth({users: { 'fail': 'fail' }}), (req, res) => {
-    res.send(401)
-})
-
-app.get('/test', basicAuth({users: { 'test': 'test' }, challenge: true,}), (req, res) => {
-    res.send('success')
-})
-
-app.listen(port, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('listening...')
 })
