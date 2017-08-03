@@ -11,9 +11,7 @@ $(function() {
         .fail(function(){
             alert('log out successful')
             window.location.reload(true);
-        });
-
-        return false;
+        });;
     }
 
     function makeBasicAuth(user, pass) {
@@ -40,11 +38,10 @@ $(function() {
         }
 
         xmlhttp.send();
-
-        return false;
     }
 
-    $("#request").on('click', function() {
+    $("#request").on('click', function(e) {
+        e.preventDefault();
         const useCredentials = $('#useCredentials').prop('checked');
         const username = $("#username").val();
         const password = $("#password").val();
@@ -57,5 +54,8 @@ $(function() {
 
     });
 
-    $("#logout").on('click', logout);
+    $("#logout").on('click', function(e) {
+        e.preventDefault();
+        logout();
+    });
 });
