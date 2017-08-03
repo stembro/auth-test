@@ -6,7 +6,7 @@ const app = express()
 const authorize = (request, response, next) => {
     const unauthorized = response => {
         response.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-        return response.send(401);
+        return response.sendStatus(401);
     };
  
     const user = basicAuth(request);
