@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
-app.get('/logout', (req, res) => {
+app.get('/logout', basicAuth({users: { 'fail': 'fail' }}), (req, res) => {
     res.send(401)
 })
 
