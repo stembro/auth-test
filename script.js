@@ -14,16 +14,9 @@ $(function() {
         });;
     }
 
-    function makeBasicAuth(user, pass) {
-        const tok = user + ':' + pass;
-        const hash = Base64.encode(tok);
-        return "Basic " + hash;
-    }
-
     function makeRequest(username, password) {
         const xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.open('GET', '/test', false);
+        xmlhttp.open('GET', '/test', false, username, password);
 
         xmlhttp.onload = function () {
             if (xmlhttp.status == 401) {
@@ -32,10 +25,6 @@ $(function() {
                 alert("login ok");
             }
         };
-
-        if (username && password) {
-            xmlhttp.setRequestHeader('Authorization', makeBasicAuth(username, password));
-        }
 
         xmlhttp.send();
     }
@@ -51,7 +40,6 @@ $(function() {
         } else {
             makeRequest();
         }
-
     });
 
     $("#logout").on('click', function(e) {
