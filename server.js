@@ -1,8 +1,8 @@
 const express = require('express')
 const basicAuth = require('express-basic-auth')
 const path = require('path')
-
 const app = express()
+const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname))
 
@@ -18,6 +18,6 @@ app.get('/test', basicAuth({users: { 'test': 'test' }, challenge: true,}), (req,
     res.send('success')
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('listening...')
 })
