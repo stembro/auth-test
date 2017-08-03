@@ -1,16 +1,19 @@
 $(function() {
     function logout() {
         $.ajax({
-            type: "GET",
-            url: "/test",
-            username: "logout",
-            password: "logout",
+            type: 'GET',
+            url: '/logout',
             headers: { "Authorization": "Basic xxx" }
+        })
+        .done(function() {
+            alert( "logout failed" );
         })
         .fail(function(){
             alert('log out successful')
             window.location.reload(true);
         });
+
+        return false;
     }
 
     function makeRequest() {
@@ -21,10 +24,8 @@ $(function() {
         }
 
         $.ajax({
+            type: 'GET',
             url: '/test',
-            success:function(){
-                alert('success');
-            },
             beforeSend : function(req) {
                 const user = $("#username").val();
                 const pass = $("#password").val();
@@ -35,7 +36,15 @@ $(function() {
                     req.setRequestHeader('Authorization', auth);
                 }
             }
+        })
+        .done(function() {
+            alert("login ok")
+        })
+        .fail(function(){
+            alert('login failed')
         });
+
+        return false;
     }
 
     $("#request").on('click', makeRequest);

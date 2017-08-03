@@ -10,8 +10,12 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'index.html'))
 })
 
+app.get('/logout', (req, res) => {
+    res.send(401)
+})
+
 app.get('/test', basicAuth({users: { 'test': 'test' }, challenge: true,}), (req, res) => {
-    res.send(200)
+    res.send('success')
 })
 
 app.listen(3000, () => {
