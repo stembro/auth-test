@@ -32,6 +32,10 @@ app.get('/test', authorize, (req, res) => {
     res.sendStatus(200)
 })
 
+app.get('/secret', authorize, (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'secret.html'))
+})
+
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'index.html'))
 })
